@@ -1,16 +1,15 @@
 package com.demo.urlcrawler;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class URLgrabber {
-    private List<String> names = new ArrayList<String>();
+//Convert response to JSON, parse and filter the links
+//Specifically for Landkreise, doesnt work with Kreisfreie Städte
+public class WikiURLextractor {
+    private List<String> addresses = new ArrayList<String>();
 
     public void getName(String content) {
         // Convert String to JSON
@@ -23,19 +22,6 @@ public class URLgrabber {
                 filter(name);
             }
         }
-
-        // write to file
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"));
-            for (String name : names) {
-                writer.write(name);
-                writer.newLine();
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     public void filter(String content) {
@@ -44,10 +30,16 @@ public class URLgrabber {
                 && !content.toLowerCase().contains("liste") && !content.toLowerCase().contains("deutsch")
                 && !content.contentEquals("Kreisstadt") && !content.contentEquals("Landkreis")
                 && !content.contentEquals("Kreisfreie Stadt")) {
-            content = "de.wikipedia.org/wiki/" + content.replace(" ", "_");
-            System.out.println(content);
-            names.add(content);
+            content = content.replace(" ", "_");
+            // System.out.println(content);
+            addresses.add(content);
         }
 
     }
+
+    // return the list of names
+    public List<String> getAddresses() {
+        return addresses;
+    }
+
 }

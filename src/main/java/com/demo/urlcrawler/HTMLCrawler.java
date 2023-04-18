@@ -5,13 +5,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-
+//Download the response and store it as a String.
 public class HTMLCrawler {
     public String getHTML(String shortURL) {
         String result = "";
         try {
             // set up an URI, as URL(String) is deprecated.
-            URI uri = new URI("https://de.wikipedia.org/w/api.php?action=parse&page=" + shortURL + "&format=json");
+            URI uri_temp = new URI("https://de.wikipedia.org/w/api.php?action=parse&page=" + shortURL + "&format=json");
+            String temp = uri_temp.toASCIIString();
+            URI uri = new URI(temp);
             URL url = uri.toURL();
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             // send GET request.
