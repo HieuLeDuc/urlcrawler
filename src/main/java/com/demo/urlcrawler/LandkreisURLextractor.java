@@ -1,15 +1,12 @@
 package com.demo.urlcrawler;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LandkreisURLextractor {
     String url;
 
-    public void URLextractor(String content) {
+    public String URLextractor(String content) {
         // Convert String to JSON
         // JSONObject jsonObj = new JSONObject(content);
         // JSONObject text_temp = jsonObj.getJSONObject("parse").getJSONObject("text");
@@ -25,16 +22,6 @@ public class LandkreisURLextractor {
         matcher.find();
         String temp = matcher.group(1);
         url = temp.substring(0, temp.length() - 1);
-        // write to file
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", true));
-
-            writer.write(url);
-            writer.newLine();
-
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return url;
     }
 }
