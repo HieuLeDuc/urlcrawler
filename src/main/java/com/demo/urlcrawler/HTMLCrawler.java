@@ -5,10 +5,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+
+import org.json.JSONObject;
+
 //Download the response and store it as a String.
 public class HTMLCrawler {
-    public String getHTML(String shortURL) {
-        String result = "";
+    public JSONObject getHTML(String shortURL) {
+        JSONObject jsonObj = null;
         try {
             // set up an URI, as URL(String) is deprecated.
             URI uri_temp = new URI("https://de.wikipedia.org/w/api.php?action=parse&page=" + shortURL + "&format=json");
@@ -26,13 +29,13 @@ public class HTMLCrawler {
                     content.append(line);
                 }
             }
-            result = content.toString();
+            jsonObj = new JSONObject(content.toString());
             // close the HTTP connection
             connection.disconnect();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return jsonObj;
     }
 }

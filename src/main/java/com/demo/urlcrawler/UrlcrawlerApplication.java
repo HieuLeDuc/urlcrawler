@@ -2,6 +2,7 @@ package com.demo.urlcrawler;
 
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,14 +19,16 @@ public class UrlcrawlerApplication {
 
 		LandkreisURLextractor urlGrabber = new LandkreisURLextractor();
 		for (String url : wikiURLlList) {
-			urlGrabber.URLextractor(crawler.getHTML(url));
-			// Sleep for 1 sec to avoid being blocked
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			// If there is a redirection, the JSON array will be empty
+			// in that case, get the new URL and try again
+			JSONObject jsonObj = crawler.getHTML(url);
+			if (jsonObj.getJSONObject("parse").getJSONArray("categories").length() == 0) {
+				WikiURLextractor newGrabber = new WikiURLextractor();
+				newGrabber.getName(jsonObj);
+				jsonObj = crawler.getHTML(newGrabber.getAddresses().get(0));
+				newGrabber.reset();
 			}
+			urlGrabber.URLextractor(jsonObj.toString());
 		}
-
 	}
 }

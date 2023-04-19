@@ -11,9 +11,8 @@ import org.json.JSONObject;
 public class WikiURLextractor {
     private List<String> addresses = new ArrayList<String>();
 
-    public void getName(String content) {
+    public void getName(JSONObject jsonObj) {
         // Convert String to JSON
-        JSONObject jsonObj = new JSONObject(content);
         JSONArray jsonArray = jsonObj.getJSONObject("parse").getJSONArray("links");
 
         if (jsonArray.length() > 0) {
@@ -42,4 +41,8 @@ public class WikiURLextractor {
         return addresses;
     }
 
+    //reset the list
+    public void reset() {
+        addresses.clear();
+    }
 }
