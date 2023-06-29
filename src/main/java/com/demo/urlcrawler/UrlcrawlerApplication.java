@@ -15,8 +15,8 @@ public class UrlcrawlerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UrlcrawlerApplication.class, args);
-
-		// set file name to yyyyMMDD-HH-mm
+		
+		/* 		// set file name to yyyyMMDD-HH-mm
 		String fileName = Instant.now().toString().replace(":", "-").replace(".", "-").substring(0, 16);
 
 		HTMLCrawler crawler = new HTMLCrawler();
@@ -37,7 +37,11 @@ public class UrlcrawlerApplication {
 				newGrabber.reset();
 			}
 			printToFile(url, urlGrabber.URLextractor(jsonObj.toString()), fileName);
-		}
+		}*/
+		String link = "https://www.kreis-mettmann.de/PDF/Anfahrtsskizze.PDF?ObjSvrID=2023&ObjID=9135&ObjLa=1&Ext=PDF&WTR=1&_ts=1682592500";
+		String[] linkParts = link.split("\\?");
+        link = linkParts[0];
+		System.out.println(link);
 	}
 
 	public static void printToFile(String name, String url, String fileName) {
